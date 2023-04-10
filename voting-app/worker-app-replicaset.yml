@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: worker-app-replicaset
+  labels:
+   name: worker-app-pod
+   app: demo-voting-app
+spec:
+  template:
+    metadata:
+      name: worker-app
+      labels:
+        name: worker-app-pod
+        app: demo-voting-app
+    spec:
+      containers:
+        - name: worker-app
+          image: kodekloud/examplevotingapp_worker:v1
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: '1'
+            requests:
+              memory: 256Mi
+              cpu: '0.2'
+  replicas: 2
+  selector:
+    matchLabels:
+      name: worker-app-pod
+      app: demo-voting-app
